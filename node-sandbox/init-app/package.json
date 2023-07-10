@@ -1,0 +1,13 @@
+{
+  "name": "npm_init_app",
+  "version": "1.0.0",
+  "description": "homerwork form victor",
+  "main": "app.js",
+  "scripts": {
+    "test": "node test.js",
+    "start": "node .",
+    "dev": "npm start & npm test & node test/testing.js"
+  },
+  "author": "David Rokach",
+  "license": "ISC"
+}

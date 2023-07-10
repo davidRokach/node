@@ -1,0 +1,20 @@
+{
+  "name": "npm_init_test",
+  "version": "1.0.0",
+  "description": "testing npm init command",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test.js",
+    "start": "node .",
+    "dev": "nodemon ."
+  },
+  "author": "David Rokach",
+  "license": "ISC",
+  "dependencies": {
+    "chalk": "^4.1.2",
+    "lodash": "^4.17.21"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.22"
+  }
+}
