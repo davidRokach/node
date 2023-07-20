@@ -1,0 +1,25 @@
+{
+  "dependencies": {
+    "chalk": "^4.1.2",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "loadash": "^1.0.0",
+    "lodash": "^4.17.21",
+    "morgan": "^1.10.0"
+  },
+  "name": "listen",
+  "version": "1.0.0",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node .",
+    "dev": "nodemon ."
+  },
+  "keywords": [],
+  "author": "David Rokach",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}
