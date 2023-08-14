@@ -1,10 +1,10 @@
-const morganLogger = require("./loggers/morgan");
 const express = require("express");
 const app = express();
+const morganLogger = require("./loggers/morgan");
 
-const LOGGER = require("morgan");
+const LOGGER = "morgan";
 
 if (LOGGER === "morgan") {
-  app.use(morganLogger());
+  app.use(morganLogger);
 }
 module.exports = app;
