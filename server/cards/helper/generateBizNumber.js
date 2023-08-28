@@ -1,11 +1,11 @@
 const lodash = require("lodash");
 const handleError = require("../../utils/errorHandler");
+const CardModel = require("../modules/mongodb/Card");
 
 const generateBizNumber = async () => {
   try {
     const random = lodash.random(1_000_000, 9_999_999);
-    // const card = await Card.finsOne({ bizNumber: random });
-    const card = await Promise.resolve(null);
+    const card = await CardModel.findOne({ bizNumber: random });
     if (card) return generateBizNumber();
     return card;
   } catch (error) {

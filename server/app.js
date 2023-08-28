@@ -6,7 +6,7 @@ const { handleError } = require("./utils/errorHandler");
 const cors = require("cors");
 const logger = require("./logger/loggerAdapter");
 const connectToDB = require("./db/dnService");
-const mongoose = require("mongoose");
+const config = require("config");
 
 app.use(logger);
 app.use(
@@ -26,7 +26,7 @@ router.use((err, req, res, next) => {
   handleError(req, 500, err.message);
 });
 
-const PORT = 8181;
+const PORT = config.get("PORT");
 app.listen(PORT, () => {
   console.log(chalk.blue.bold(`server is listening on ${PORT}`));
   connectToDB();

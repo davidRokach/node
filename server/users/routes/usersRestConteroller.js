@@ -6,6 +6,7 @@ const {
   validateLogin,
 } = require("../validations/userValidationService");
 const normalizedUser = require("../helper/normalizedUser");
+const { generateUserPassword } = require("../helper/bcrypt");
 
 const router = express.Router();
 
@@ -19,6 +20,7 @@ router.post("/", async (req, res) => {
     }
 
     const user = await normalizedUser(rawUser);
+    user.password = await generateUserPassword(rawUser.password);
 
     const userFormDB = await register(user);
     return res.status(201).send(userFormDB);
@@ -33,7 +35,6 @@ router.post("/login", async (req, res) => {
     if (error) {
       return handleError(res, 400, error.details[0].message);
     }
-
     const user = await login(rawUser);
     res.send(user);
   } catch (error) {

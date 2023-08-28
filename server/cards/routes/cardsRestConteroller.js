@@ -6,7 +6,7 @@ const {
   getCards,
   getMyCards,
   createCard,
-  findOneCard,
+  getCard,
   updateCard,
   likeCard,
   removeCard,
@@ -25,9 +25,9 @@ router.get("/", async (req, res) => {
 
 router.get("/my-cards", async (req, res) => {
   try {
-    const userId = "123456";
-    const card = await getMyCards(userId);
-    return res.send(card);
+    const userId = "507f1f77bcf86cd799439011";
+    const cards = await getMyCards(userId);
+    return res.send(cards);
   } catch (error) {
     return handleError(res, error.status || 500, error.message);
   }
@@ -36,7 +36,7 @@ router.get("/my-cards", async (req, res) => {
 router.get("/:id", async (req, res) => {
   try {
     const id = req.params.id;
-    const card = await findOneCard(id);
+    const card = await getCard(id);
     res.send(card);
   } catch (error) {
     return handleError(res, error.status || 500, error.message);
@@ -58,8 +58,13 @@ router.post("/", async (req, res) => {
 
 router.put("/:id", async (req, res) => {
   try {
-    const card = await updateCard(req.params.id);
-    res.send(card);
+    const rawCard = req.body;
+    const { id } = req.params;
+    const { error } = validateCard(rawCard);
+    if (error) return handleError(res, 400, error.details[0].message);
+    const card = await normalizedCard(rawCard);
+    const cardFormDB = await updateCard(id, card);
+    res.send(cardFormDB);
   } catch (error) {
     return handleError(res, error.status || 500, error.message);
   }
@@ -68,7 +73,7 @@ router.put("/:id", async (req, res) => {
 router.patch("/:id", async (req, res) => {
   try {
     const id = req.params.id;
-    const userId = "123456";
+    const userId = "64d53245a5b75bd8753b38a8";
     const card = await likeCard(id, userId);
     res.send(card);
   } catch (error) {
