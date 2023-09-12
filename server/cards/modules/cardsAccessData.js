@@ -32,7 +32,7 @@ const getMyCards = async (userId) => {
 const getCard = async (cardId) => {
   if (DB === "MONGODB") {
     try {
-      const card = await CardModel.findById({ cardId });
+      const card = await CardModel.findById(cardId);
       if (!card) throw new Error("Could not find this card in the database");
       return Promise.resolve(card);
     } catch (error) {
