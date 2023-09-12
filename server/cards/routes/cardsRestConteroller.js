@@ -113,17 +113,20 @@ router.patch("/:id", auth, async (req, res) => {
 
 router.delete("/:id", auth, async (req, res) => {
   try {
-    const id = req.params.id;
-    const { _id, isAdmin } = req.user;
+    const cardId = req.params.id;
+    const { _id: userId, isAdmin } = req.user;
 
-    if ((_id !== id) & !isAdmin)
+    const cardDormDB = await getCard(cardId);
+    const cardUserId = cardDormDB.user_id.toString();
+
+    if ((userId !== cardUserId) & !isAdmin)
       return handleError(
         res,
         403,
-        "Access denied. only the user that create the card and admin user can delete the card "
+        "Access denied. only the user that create the card or admin user can delete the card "
       );
 
-    const card = await removeCard(id);
+    const card = await removeCard(cardId);
     res.send(card);
   } catch (error) {
     return handleError(res, error.status || 500, error.message);
