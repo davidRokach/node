@@ -2,8 +2,10 @@
   "NODE_ENV": "production",
   "PORT": 9191,
   "TOKEN_GENERATOR": "jwt",
-  "DB_NAME": null,
-  "DB_PASSEOR": null,
+  "DB_USER_NAME": "david",
+  "DB_PASSWORD": "QUg577AtdMETJSB5",
   "LOGGER": "morgan",
-  "DB": "MONGODB"
+  "DB": "MONGODB",
+  "DB_HOST": "cluster0.4qkibqt.mongodb.net",
+  "DB_": "bussines-cards"
 }

@@ -45,7 +45,10 @@ const getCard = async (cardId) => {
 const createCard = async (noramlizedCard) => {
   if (DB === "MONGODB") {
     try {
-      const card = new CardModel(noramlizedCard);
+      let card = await CardModel.findOne({ email: noramlizedCard.email });
+      if (card) throw new Error("Cards alerdy exsits");
+
+      card = new CardModel(noramlizedCard);
       await card.save();
       return Promise.resolve(card);
     } catch (error) {

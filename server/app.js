@@ -7,6 +7,10 @@ const cors = require("cors");
 const logger = require("./logger/loggerAdapter");
 const connectToDB = require("./db/dnService");
 const config = require("config");
+const {
+  generateInitalCards,
+  generateInitialUsers,
+} = require("./initialData/initalDataService");
 
 app.use(logger);
 app.use(
@@ -30,4 +34,7 @@ const PORT = config.get("PORT");
 app.listen(PORT, () => {
   console.log(chalk.blue.bold(`server is listening on ${PORT}`));
   connectToDB();
+
+  generateInitalCards();
+  generateInitialUsers();
 });

@@ -14,7 +14,7 @@ const User = new mongoose.Schema(
     email: EMAIL,
     password: {
       type: String,
-      math: RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*d)(?=.*[!@#$%^&*-]).{9,}$"),
+      math: RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*d)(?=.*[!@#$%^&*-]).{7,}$"),
     },
     image: Image,
     address: Address,

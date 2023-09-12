@@ -46,8 +46,18 @@ router.get("/:id", async (req, res) => {
 router.post("/", async (req, res) => {
   try {
     const rawCard = req.body;
-    const { error } = validateCard(rawCard);
+    const { isBusiness, _id } = req.user;
+
+    if (!isBusiness)
+      return handleError(
+        res,
+        403,
+        "Access denied. you must be an business user"
+      );
+
+    const { error } = validateCard(rawCard, _id);
     if (error) return handleError(res, 400, error.details[0].message);
+
     const card = await normalizedCard(rawCard);
     const cardFormDB = await createCard(card);
     res.send(cardFormDB);
@@ -60,9 +70,19 @@ router.put("/:id", async (req, res) => {
   try {
     const rawCard = req.body;
     const { id } = req.params;
+    const { _id } = req.user;
+
+    if (_id !== id)
+      return handleError(
+        res,
+        403,
+        "Access denied. only the user that create the card can edit the card"
+      );
+
     const { error } = validateCard(rawCard);
     if (error) return handleError(res, 400, error.details[0].message);
-    const card = await normalizedCard(rawCard);
+
+    const card = await normalizedCard(rawCard, _id);
     const cardFormDB = await updateCard(id, card);
     res.send(cardFormDB);
   } catch (error) {
@@ -73,7 +93,15 @@ router.put("/:id", async (req, res) => {
 router.patch("/:id", async (req, res) => {
   try {
     const id = req.params.id;
-    const userId = "64d53245a5b75bd8753b38a8";
+    const userId = req.user._id;
+
+    if (!userId)
+      return handleError(
+        res,
+        403,
+        "Access denied. Only logged in user in can like card "
+      );
+
     const card = await likeCard(id, userId);
     res.send(card);
   } catch (error) {
@@ -84,6 +112,15 @@ router.patch("/:id", async (req, res) => {
 router.delete("/:id", async (req, res) => {
   try {
     const id = req.params.id;
+    const { _id, isAdmin } = req.user;
+
+    if ((_id !== id) & !isAdmin)
+      return handleError(
+        res,
+        403,
+        "Access denied. only the user that create the card and admin user can delete the card "
+      );
+
     const card = await removeCard(id);
     res.send(card);
   } catch (error) {
