@@ -12,6 +12,7 @@ const {
 } = require("../modules/cardsAccessData");
 const validateCard = require("../validations/cardValidasionService");
 const normalizedCard = require("../helper/normalizedcard");
+const auth = require("../../auth/authService");
 
 router.get("/", async (req, res) => {
   try {
@@ -42,7 +43,7 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-router.post("/", async (req, res) => {
+router.post("/", auth, async (req, res) => {
   try {
     const rawCard = req.body;
     const { isBusiness, _id } = req.user;
@@ -65,7 +66,7 @@ router.post("/", async (req, res) => {
   }
 });
 
-router.put("/:id", async (req, res) => {
+router.put("/:id", auth, async (req, res) => {
   try {
     const rawCard = req.body;
     const { id } = req.params;
@@ -89,7 +90,7 @@ router.put("/:id", async (req, res) => {
   }
 });
 
-router.patch("/:id", async (req, res) => {
+router.patch("/:id", auth, async (req, res) => {
   try {
     const id = req.params.id;
     const userId = req.user._id;
@@ -108,7 +109,7 @@ router.patch("/:id", async (req, res) => {
   }
 });
 
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", auth, async (req, res) => {
   try {
     const id = req.params.id;
     const { _id, isAdmin } = req.user;
