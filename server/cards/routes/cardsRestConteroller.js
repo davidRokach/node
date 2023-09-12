@@ -23,9 +23,9 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.get("/my-cards", async (req, res) => {
+router.get("/my-cards", auth, async (req, res) => {
   try {
-    const userId = "507f1f77bcf86cd799439011";
+    const userId = req.user._id;
     const cards = await getMyCards(userId);
     return res.send(cards);
   } catch (error) {
@@ -47,7 +47,6 @@ router.post("/", auth, async (req, res) => {
   try {
     const rawCard = req.body;
     const { isBusiness, _id } = req.user;
-
     if (!isBusiness)
       return handleError(
         res,
@@ -58,7 +57,7 @@ router.post("/", auth, async (req, res) => {
     const { error } = validateCard(rawCard, _id);
     if (error) return handleError(res, 400, error.details[0].message);
 
-    const card = await normalizedCard(rawCard);
+    const card = await normalizedCard(rawCard, _id);
     const cardFormDB = await createCard(card);
     res.send(cardFormDB);
   } catch (error) {
@@ -69,10 +68,13 @@ router.post("/", auth, async (req, res) => {
 router.put("/:id", auth, async (req, res) => {
   try {
     const rawCard = req.body;
-    const { id } = req.params;
-    const { _id } = req.user;
+    const cardId = req.params.id;
+    const userId = req.user._id;
 
-    if (_id !== id)
+    const cardDormDB = await getCard(cardId);
+    const cardUserId = cardDormDB.user_id.toString();
+
+    if (cardUserId !== userId)
       return handleError(
         res,
         403,
@@ -82,8 +84,8 @@ router.put("/:id", auth, async (req, res) => {
     const { error } = validateCard(rawCard);
     if (error) return handleError(res, 400, error.details[0].message);
 
-    const card = await normalizedCard(rawCard, _id);
-    const cardFormDB = await updateCard(id, card);
+    const card = await normalizedCard(rawCard, userId);
+    const cardFormDB = await updateCard(cardId, card);
     res.send(cardFormDB);
   } catch (error) {
     return handleError(res, error.status || 500, error.message);
