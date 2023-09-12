@@ -7,7 +7,7 @@ const generateBizNumber = async () => {
     const random = lodash.random(1_000_000, 9_999_999);
     const card = await CardModel.findOne({ bizNumber: random });
     if (card) return generateBizNumber();
-    return card;
+    return random;
   } catch (error) {
     return handleError("GenerateBizNumber", 500, error.message);
   }
