@@ -12,7 +12,7 @@ const registerValidation = (user) => {
     }),
     isBusiness: Joi.boolean().required(),
     phone: Joi.string()
-      .ruleset.regex(/\+?(972|0)(\-)?0?(([23489]{1}\d{7})|[5]{1}\d{8})/)
+      .ruleset.regex(/\+?(972|0)(-)?(\d{2}(-)?\d{7}|\d{2}(-)?\d{3}(-)?\d{4})/)
       .rule({ message: "phone mast be a valid phone" })
       .required(),
     email: Joi.string()

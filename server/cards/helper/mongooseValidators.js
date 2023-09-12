@@ -17,7 +17,7 @@ const URl = {
 };
 const ISRAELI_PHONE = {
   type: String,
-  math: RegExp("^0?(([23489]{1}\\D{7})|[5]{1}[012345689]\\D{7})$"),
+  math: RegExp(/\+?(972|0)(-)?(d{2}(-)?d{7}|d{2}(-)?d{3}(-)?d{4})/),
 };
 
 exports.DEFAULT_VALIDATION = DEFAULT_VALIDATION;
