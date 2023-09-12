@@ -1,6 +1,5 @@
 const express = require("express");
 const router = express.Router();
-// const lodash = require("lodash");
 const handleError = require("../../utils/errorHandler");
 const {
   getCards,

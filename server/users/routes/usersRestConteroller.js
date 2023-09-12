@@ -19,6 +19,7 @@ const { generateUserPassword } = require("../helper/bcrypt");
 
 const router = express.Router();
 
+//regeister user
 router.post("/", async (req, res) => {
   try {
     const rawUser = req.body;
@@ -36,6 +37,7 @@ router.post("/", async (req, res) => {
     return handleError(res, error.status || 500, error.message);
   }
 });
+//login
 router.post("/login", async (req, res) => {
   try {
     const rawUser = req.body;
@@ -49,6 +51,7 @@ router.post("/login", async (req, res) => {
     return handleError(res, error.status || 500, error.message);
   }
 });
+//get all users
 router.get("/", auth, async (req, res) => {
   try {
     const { isAdmin } = req.user;
@@ -61,6 +64,7 @@ router.get("/", auth, async (req, res) => {
     return handleError(res, error.status || 500, error.message);
   }
 });
+//get user
 router.get("/:id", auth, async (req, res) => {
   try {
     const { _id, isAdmin } = req.user;
@@ -70,7 +74,7 @@ router.get("/:id", auth, async (req, res) => {
       return handleError(
         res,
         403,
-        "Access denied. you muse be an admin user to see all the users in the database."
+        "Access denied. you muse be an admin or registered user user to see all the users in the database."
       );
 
     const user = await getUser(id);
@@ -79,6 +83,7 @@ router.get("/:id", auth, async (req, res) => {
     return handleError(res, error.status || 500, error.message);
   }
 });
+//edit user
 router.put("/:id", auth, async (req, res) => {
   try {
     const userId = req.params.id;
@@ -95,25 +100,26 @@ router.put("/:id", auth, async (req, res) => {
     if (error)
       return handleError(res, 400, `Joi Error: ${error.details[0].message}`);
 
-    const normalizedUser = normalizedUser(req.body);
+    const userNormalized = await normalizedUser(req.body);
 
-    const newUser = await updateUser(userId, normalizedUser);
+    const newUser = await updateUser(userId, userNormalized);
 
     return res.send(newUser);
   } catch (error) {
     return handleError(res, error.status || 500, error.message);
   }
 });
+//change isBuusiness status
 router.patch("/:id", auth, async (req, res) => {
   try {
     const { id } = req.params;
     const user = req.user;
 
-    if (id !== user._id && !user.isAdmin)
+    if (id !== user._id)
       return handleError(
         res,
         403,
-        "Authorization Error: You must bean an admin type user or the registered user to update its business status"
+        "Authorization Error: You must be the registered user to update its business status"
       );
 
     const changedStatusUser = await changeUserBusinessStatus(id);
@@ -122,7 +128,7 @@ router.patch("/:id", auth, async (req, res) => {
     return handleError(res, error.status || 500, error.message);
   }
 });
-
+// delete user
 router.delete("/:id", auth, async (req, res) => {
   try {
     const { id } = req.params;
@@ -141,7 +147,7 @@ router.delete("/:id", auth, async (req, res) => {
     return handleError(res, error.status || 500, error.message);
   }
 });
-
+// error with worng request
 router.use((req, res) => handleError(res, 404, "Page Not Found in users!"));
 
 module.exports = router;
