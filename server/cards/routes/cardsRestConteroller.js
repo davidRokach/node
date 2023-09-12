@@ -14,6 +14,7 @@ const validateCard = require("../validations/cardValidasionService");
 const normalizedCard = require("../helper/normalizedcard");
 const auth = require("../../auth/authService");
 
+//get all card
 router.get("/", async (req, res) => {
   try {
     const cards = await getCards();
@@ -22,7 +23,7 @@ router.get("/", async (req, res) => {
     return handleError(res, error.status || 500, error.message);
   }
 });
-
+//get user cards
 router.get("/my-cards", auth, async (req, res) => {
   try {
     const userId = req.user._id;
@@ -32,7 +33,7 @@ router.get("/my-cards", auth, async (req, res) => {
     return handleError(res, error.status || 500, error.message);
   }
 });
-
+//get card by id
 router.get("/:id", async (req, res) => {
   try {
     const id = req.params.id;
@@ -42,7 +43,7 @@ router.get("/:id", async (req, res) => {
     return handleError(res, error.status || 500, error.message);
   }
 });
-
+//create new card
 router.post("/", auth, async (req, res) => {
   try {
     const rawCard = req.body;
@@ -64,7 +65,7 @@ router.post("/", auth, async (req, res) => {
     return handleError(res, error.status || 500, error.message);
   }
 });
-
+//edit card by id
 router.put("/:id", auth, async (req, res) => {
   try {
     const rawCard = req.body;
@@ -91,7 +92,7 @@ router.put("/:id", auth, async (req, res) => {
     return handleError(res, error.status || 500, error.message);
   }
 });
-
+//like card by id
 router.patch("/:id", auth, async (req, res) => {
   try {
     const id = req.params.id;
@@ -110,7 +111,7 @@ router.patch("/:id", auth, async (req, res) => {
     return handleError(res, error.status || 500, error.message);
   }
 });
-
+//delete card by id
 router.delete("/:id", auth, async (req, res) => {
   try {
     const cardId = req.params.id;
