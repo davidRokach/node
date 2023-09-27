@@ -6,12 +6,15 @@
     "config": "^3.3.9",
     "cors": "^2.8.5",
     "express": "^4.18.2",
+    "express-session": "^1.17.3",
     "joi": "^17.9.2",
     "jsonwebtoken": "^9.0.1",
     "loadash": "^1.0.0",
     "lodash": "^4.17.21",
     "mongoose": "^7.4.2",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "passport-google-oauth2": "^0.2.0",
+    "passport": "^0.4.1"
   },
   "name": "listen",
   "version": "1.0.0",

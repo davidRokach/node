@@ -124,6 +124,31 @@ const removeCard = async (cardId) => {
   return Promise.resolve({});
 };
 
+const changeBizNumber = async (cardId, NewBizNumber) => {
+  if (DB === "MONGODB") {
+    try {
+      const bizNumber = await CardModel.findOne({ bizNumber: NewBizNumber });
+      if (bizNumber) {
+        throw new Error(
+          "this bizNumber is taken by another business card, please chose another bizNumber"
+        );
+      }
+      const card = await getCard(cardId);
+      const cardFromDB = await CardModel.findOneAndUpdate(
+        { bizNumber: card.bizNumber },
+        { bizNumber: NewBizNumber },
+        { new: true }
+      );
+
+      return Promise.resolve(cardFromDB);
+    } catch (error) {
+      error.status = 404;
+      return Promise.reject(error);
+    }
+  }
+  return Promise.resolve({});
+};
+
 exports.getCards = getCards;
 exports.getMyCards = getMyCards;
 exports.getCard = getCard;
@@ -131,3 +156,4 @@ exports.createCard = createCard;
 exports.updateCard = updateCard;
 exports.likeCard = likeCard;
 exports.removeCard = removeCard;
+exports.changeBizNumber = changeBizNumber;

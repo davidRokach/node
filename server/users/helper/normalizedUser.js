@@ -1,4 +1,4 @@
-const normalizedCard = async (rawUser) => {
+const normalizedUser = async (rawUser) => {
   const name = {
     ...rawUser.name,
     middle: rawUser.name.middle || "",
@@ -21,4 +21,4 @@ const normalizedCard = async (rawUser) => {
   };
   return user;
 };
-module.exports = normalizedCard;
+module.exports = normalizedUser;

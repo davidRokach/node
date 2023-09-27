@@ -1,4 +1,5 @@
 const express = require("express");
+const passport = require("passport");
 const auth = require("../../auth/authService");
 const {
   register,
@@ -8,6 +9,7 @@ const {
   updateUser,
   changeUserBusinessStatus,
   deleteUser,
+  googleRegister,
 } = require("../modules/userAccessData");
 const handleError = require("../../utils/errorHandler");
 const {
@@ -16,8 +18,58 @@ const {
 } = require("../validations/userValidationService");
 const normalizedUser = require("../helper/normalizedUser");
 const { generateUserPassword } = require("../helper/bcrypt");
+const normalizedGoogleUser = require("../helper/normalizeGoogleUser");
+const handleErrorHttp = require("../../utils/handleSendHttps");
+require("../../auth/googleAuth");
 
 const router = express.Router();
+
+async function isLoggedIn(req, res, next) {
+  req.user ? next() : handleErrorHttp(res, 401, "Unauthorized google user");
+}
+
+router.get("/auth", async (req, res) => {
+  res.send('<a href="/users/auth/google">Authenticate with Google</a>');
+});
+
+router.get(
+  "/auth/google",
+  passport.authenticate("google", { scope: ["email", "profile"] })
+);
+
+router.get(
+  "/auth/google/callback",
+  passport.authenticate("google", {
+    successRedirect: "/users/auth/protected",
+    failureRedirect: "/users/auth/google/failure",
+  })
+);
+
+router.get("/auth/protected", isLoggedIn, async (req, res) => {
+  const user = await normalizedGoogleUser(req.user);
+  user.password = await generateUserPassword("Def1234!");
+
+  const token = await googleRegister(user);
+  res.send(`Hello ${req.user.displayName}, this your token ${token}`);
+});
+
+router.get("/auth/logout", async (req, res) => {
+  req.logout(function (err) {
+    if (err) {
+      return console.log();
+    }
+  });
+  req.session.destroy(function (err) {
+    if (err) {
+      console.log(err);
+    }
+  });
+  res.send("Goodbye!");
+});
+
+router.get("/auth/google/failure", async (req, res) => {
+  res.send("Failed to authenticate..");
+});
 
 //regeister user
 router.post("/", async (req, res) => {
@@ -74,7 +126,7 @@ router.get("/:id", auth, async (req, res) => {
       return handleError(
         res,
         403,
-        "Access denied. you muse be an admin or registered user user to see all the users in the database."
+        "Access denied. you muse be an admin or registered user to see the user."
       );
 
     const user = await getUser(id);
@@ -147,6 +199,7 @@ router.delete("/:id", auth, async (req, res) => {
     return handleError(res, error.status || 500, error.message);
   }
 });
+
 // error with worng request
 router.use((req, res) => handleError(res, 404, "Page Not Found in users!"));
 

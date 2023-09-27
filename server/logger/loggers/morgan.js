@@ -1,5 +1,6 @@
 const chalk = require("chalk");
 const morgan = require("morgan");
+const { loggerToFile } = require("./fileLogger");
 
 const logger = morgan((tokens, req, res) => {
   const date = tokens.date(req, res);
@@ -11,6 +12,7 @@ const logger = morgan((tokens, req, res) => {
   const ms = "ms";
   const arr = [date, method, url, status, dash, responseTime, ms];
   if (status >= 400) {
+    loggerToFile(status, res.myData.message || "");
     return chalk.redBright(arr.join(" "));
   } else {
     return chalk.cyanBright(arr.join(" "));

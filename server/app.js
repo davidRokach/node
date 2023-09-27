@@ -11,8 +11,9 @@ const {
   generateInitalCards,
   generateInitialUsers,
 } = require("./initialData/initalDataService");
+const passport = require("passport");
+const session = require("express-session");
 
-app.use(logger);
 app.use(
   cors({
     origin: ["http://localhost:3000", "http://127.0.0.1:5500"],
@@ -23,12 +24,17 @@ app.use(
 app.use(express.json());
 app.use(express.text());
 app.use(express.static("./public"));
+app.use(logger);
+
+app.use(session({ secret: "cats", resave: false, saveUninitialized: true }));
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use(router);
 
-router.use((err, req, res, next) => {
-  handleError(req, 500, err.message);
-});
+// app.use((err, req, res, next) => {
+//   handleError(res, 500, err.message);
+// });
 
 const PORT = config.get("PORT");
 app.listen(PORT, () => {

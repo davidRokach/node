@@ -3,6 +3,8 @@
   "PORT": 9191,
   "TOKEN_GENERATOR": "jwt",
   "DB_USER_NAME": "david",
+  "GOOGLE_CLIENT_ID": "1082169873500-qqbtgh96n944p5j8528d7spp1qc9d6bi.apps.googleusercontent.com",
+  "GOOGLE_CLIENT_SECRET": "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",
   "DB_PASSWORD": "QUg577AtdMETJSB5",
   "LOGGER": "morgan",
   "DB": "MONGODB",

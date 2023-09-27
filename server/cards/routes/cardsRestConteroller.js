@@ -9,6 +9,7 @@ const {
   updateCard,
   likeCard,
   removeCard,
+  changeBizNumber,
 } = require("../modules/cardsAccessData");
 
 const validateCard = require("../validations/cardValidasionService");
@@ -129,6 +130,24 @@ router.delete("/:id", auth, async (req, res) => {
       );
 
     const card = await removeCard(cardId);
+    res.send(card);
+  } catch (error) {
+    return handleError(res, error.status || 500, error.message);
+  }
+});
+router.patch("/:bizNumber/:id", auth, async (req, res) => {
+  try {
+    const { id, bizNumber } = req.params;
+    const { isAdmin } = req.user;
+    console.log(isAdmin);
+    if (!isAdmin)
+      return handleError(
+        res,
+        403,
+        "Access denied. Only admin user in can change the biz number "
+      );
+
+    const card = await changeBizNumber(id, bizNumber);
     res.send(card);
   } catch (error) {
     return handleError(res, error.status || 500, error.message);

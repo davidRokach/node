@@ -11,10 +11,37 @@ const register = async (noramlizedUser) => {
       let user = await UserModel.findOne({ email: noramlizedUser.email });
       if (user) throw new Error("User already registered");
 
+      console.log(noramlizedUser);
+
       user = UserModel(noramlizedUser);
+      console.log(user);
+
       await user.save();
       user = lodash.pick(user, ["_id", "name", "email"]);
       return Promise.resolve(user);
+    } catch (error) {
+      error.status = 400;
+      return Promise.reject(error);
+    }
+  }
+  return Promise.resolve("user created not in mongodb!");
+};
+const googleRegister = async (noramlizedUser) => {
+  if (DB === "MONGODB") {
+    try {
+      let user = await UserModel.findOne({ email: noramlizedUser.email });
+      if (user)
+        return await login({
+          email: noramlizedUser.email,
+          password: "Def1234!",
+        });
+
+      console.log(noramlizedUser);
+      user = UserModel(noramlizedUser);
+      console.log(user);
+      await user.save();
+      const loginUser = { email: noramlizedUser.email, password: "Def1234!" };
+      return await login(loginUser);
     } catch (error) {
       error.status = 400;
       return Promise.reject(error);
@@ -136,3 +163,4 @@ exports.getUser = getUser;
 exports.updateUser = updateUser;
 exports.changeUserBusinessStatus = changeUserBusinessStatus;
 exports.deleteUser = deleteUser;
+exports.googleRegister = googleRegister;
