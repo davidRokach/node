@@ -19,7 +19,6 @@ const normalizedUser = require("../helper/normalizedUser");
 const { generateUserPassword } = require("../helper/bcrypt");
 const normalizedGoogleUser = require("../helper/normalizeGoogleUser");
 const handleErrorHttp = require("../../utils/handleSendHttps");
-const generateGooglePasswords = require("../helper/generateGooglePasswords");
 require("../../auth/googleAuth");
 
 const router = express.Router();

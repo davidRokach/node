@@ -4,15 +4,18 @@ This Node server is designed for the "Business Card App," a web application that
 
 ## Features
 
-- **Morgan**: Morgan is used to create a logger that prints all incoming requests to the console. It also saves all errors in a log file, providing detailed insights into server activity.
+- **Morgan**: The server use Morgan, is used to create a logger that prints all incoming requests to the console. It also saves all errors in a log file, providing detailed insights into server activity.
 
-- **Chalk**: Chalk is employed to add color to console outputs, making it easier to distinguish between different types of log messages.
+- **Chalk**: The server use Chalk, is employed to add color to console outputs, making it easier to distinguish between different types of log messages.
 
 - **Cors**: The server uses CORS (Cross-Origin Resource Sharing) to allow HTTP requests only from authorized addresses, ensuring secure communication with the web application.
 
-- **Joi**: Joi is utilized for data validation, ensuring that objects received from clients meet specified criteria. This helps maintain data integrity and security.
+- **Joi**: The server use Joi, is utilized for data validation, ensuring that objects received from clients meet specified criteria. This helps maintain data integrity and security.
 
-- **Bcryptjs**: Bcryptjs is used to encrypt a new user's password before storing it in the MongoDB database. It also enables password verification during login, enhancing user account security.
+- **Bcryptjs**: The server use Bcryptjs, is used to encrypt a new user's password before storing it in the MongoDB database. It also enables password verification during login, enhancing user account security.
+
+- **Blocking users**:
+  In case of wrong login attempt more than 3 times, the user will be blocked for 24 hours.
 
 - **Json Web Token (JWT)**: JWT is employed to create encrypted tokens for user authentication. The payload object contains the following keys: `_id` (user ID), `isBusiness` (flag indicating if the user is a business user), and `isAdmin` (flag indicating if the user has administrative privileges).
 
@@ -130,6 +133,7 @@ Here's a table of endpoints with their respective authorization requirements:
 | Edit Card       | PUT                  | /cards/:id      | The user who created the card          | card           |
 | Like Card       | PATCH                | /cards/:id      | A registered user                      | card           |
 | Delete Card     | DELETE               | /cards/:id      | The user who created the card or admin | Deleted card   |
+| change bizNumbe | PATCH                | /:bizNumber/:id | Admin user                             | card           |
 
 ## Usage
 
