@@ -40,9 +40,9 @@ app.use(passport.session());
 
 app.use(router);
 
-// app.use((err, req, res, next) => {
-//   handleError(res, 500, err.message);
-// });
+app.use((err, req, res, next) => {
+  handleError(res, 500, err.message);
+});
 
 const PORT = config.get("PORT");
 app.listen(PORT, () => {
