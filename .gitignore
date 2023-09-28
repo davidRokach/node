@@ -1,6 +1,6 @@
 /node_modules
 **/prodution.js
 /.dockerignore
-/docker-compose
+/docker-compose.yml
 /Dockerfile
 /config
