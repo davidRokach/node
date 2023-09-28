@@ -1,0 +1,5 @@
+/node_modules
+**/prodution.js
+/.dockerignore
+/docker-compose.yml
+/Dockerfile
