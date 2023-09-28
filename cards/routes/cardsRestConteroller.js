@@ -135,6 +135,7 @@ router.delete("/:id", auth, async (req, res) => {
     return handleError(res, error.status || 500, error.message);
   }
 });
+// change bizNumber by id
 router.patch("/:bizNumber/:id", auth, async (req, res) => {
   try {
     const { id, bizNumber } = req.params;
@@ -144,7 +145,7 @@ router.patch("/:bizNumber/:id", auth, async (req, res) => {
       return handleError(
         res,
         403,
-        "Access denied. Only admin user in can change the biz number "
+        "Access denied. Only admin user is can to change the biz number "
       );
 
     const card = await changeBizNumber(id, bizNumber);
