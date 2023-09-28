@@ -31,15 +31,11 @@ const googleRegister = async (noramlizedUser) => {
   if (DB === "MONGODB") {
     try {
       let user = await UserModel.findOne({ email: noramlizedUser.email });
-      if (user)
-        return await login({
-          email: noramlizedUser.email,
-          password: "Def1234!",
-        });
+      if (user) return generateAuthToken(user);
+
       user = UserModel(noramlizedUser);
       await user.save();
-      const loginUser = { email: noramlizedUser.email, password: "Def1234!" };
-      return await login(loginUser);
+      return generateAuthToken(user);
     } catch (error) {
       error.status = 400;
       return Promise.reject(error);
@@ -53,17 +49,24 @@ const login = async (noramlizedUser) => {
       let user = await UserModel.findOne({ email: noramlizedUser.email });
       if (!user) throw new Error("Invalid email or password");
 
+      if (!user.password)
+        throw new Error(
+          "You have an account on the site with your Google account, please log in via regeister google user"
+        );
+
       await checkUserPasswordError(user._id, user.isPasswordErorr);
 
       const isPasswordValid = await comparePassword(
         noramlizedUser.password,
         user.password
       );
+
       if (!isPasswordValid) {
         await changeUserPasswordError(user._id, user.isPasswordErorr);
       }
       user.isPasswordErorr = [];
       await user.save();
+
       return generateAuthToken(user);
     } catch (error) {
       error.status = 400;

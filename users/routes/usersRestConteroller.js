@@ -1,5 +1,4 @@
 const express = require("express");
-const passport = require("passport");
 const auth = require("../../auth/authService");
 const {
   register,
@@ -20,7 +19,7 @@ const normalizedUser = require("../helper/normalizedUser");
 const { generateUserPassword } = require("../helper/bcrypt");
 const normalizedGoogleUser = require("../helper/normalizeGoogleUser");
 const handleErrorHttp = require("../../utils/handleSendHttps");
-const { Store } = require("express-session");
+const generateGooglePasswords = require("../helper/generateGooglePasswords");
 require("../../auth/googleAuth");
 
 const router = express.Router();
@@ -28,50 +27,14 @@ const router = express.Router();
 async function isLoggedIn(req, res, next) {
   req.user ? next() : handleErrorHttp(res, 401, "Unauthorized google user");
 }
-
-router.get("/auth", async (req, res) => {
-  req.session.destroy(function (err) {
-    if (err) {
-      console.log(err);
-    }
-  });
-  console.log(req.session);
-  res.send('<a href="/users/auth/google">Authenticate with Google</a>');
-});
-
-router.get(
-  "/auth/google",
-  passport.authenticate("google", { scope: ["email", "profile"] })
-);
-
-router.get(
-  "/auth/google/callback",
-  passport.authenticate("google", {
-    successRedirect: "/users/auth/protected",
-    failureRedirect: "/users/auth/google/failure",
-  })
-);
-
+// regeister google user
 router.get("/auth/protected", isLoggedIn, async (req, res) => {
   const user = await normalizedGoogleUser(req.user);
-  user.password = await generateUserPassword("Def1234!");
+  // const generatedPassword = await generateGooglePasswords();
+  // user.password = await generateUserPassword(generatedPassword);
 
   const token = await googleRegister(user);
   res.send(`Hello ${req.user.displayName}, this your token ${token}`);
-});
-
-router.get("/auth/logout", async (req, res) => {
-  req.session.destroy(function (err) {
-    if (err) {
-      console.log(err);
-    }
-  });
-  res.end;
-  res.redirect("http://localhost:8181/users/auth/");
-});
-
-router.get("/auth/google/failure", async (req, res) => {
-  res.send("Failed to authenticate..");
 });
 
 //regeister user

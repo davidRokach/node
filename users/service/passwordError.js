@@ -11,51 +11,18 @@ const changeUserPasswordError = async (userId, isPasswordErorr) => {
         password: 0,
         __v: 0,
       });
-
+      console.log(isPasswordErorr);
       //There are no errors when trying to log in to the user
-      if (isPasswordErorr.length === 0) {
-        user.isPasswordErorr = [1, Date.now()];
+      if (isPasswordErorr.length === 0 || isPasswordErorr[0] < 3) {
+        user.isPasswordErorr = [(isPasswordErorr[0] || 0) + 1, Date.now()];
         await user.save();
-        console.log(user.isPasswordErorr);
+        console.log(user.isPasswordErorr[0]);
         throw new Error(
-          "Invalid email or password, three more login attempts left"
+          `Invalid email or password, ${
+            4 - user.isPasswordErorr[0]
+          } more login attempts left`
         );
       }
-
-      //If there have been more than 3 incorrect login attempts and 24 hours have passed
-      if (
-        (isPasswordErorr[0] === 3) &
-        (Date.now() - isPasswordErorr[1] > twentyFourHours)
-      ) {
-        user.isPasswordErorr = [];
-        await user.save();
-        changeUserPasswordError(userId, isPasswordErorr);
-      }
-
-      //If there have been more than 3 incorrect login attempts and 24 hours not have passed
-      if (
-        (isPasswordErorr[0] === 3) &
-        (Date.now() - isPasswordErorr[1] < twentyFourHours)
-      ) {
-        const timeLeft = Math.round(
-          (twentyFourHours - (Date.now() - isPasswordErorr[1])) /
-            (1000 * 60 * 60)
-        );
-        throw new Error(
-          `You have tried to enter an incorrect username or password more than three times, please try again in ${timeLeft} hours   `
-        );
-      }
-
-      // Adding the number of times an error login occurred, and the date it was last performed
-      user.isPasswordErorr = [user.isPasswordErorr[0] + 1, Date.now()];
-      await user.save();
-      console.log(user.isPasswordErorr);
-
-      throw new Error(
-        `Invalid email or password, ${
-          4 - user.isPasswordErorr[0]
-        } more login attempts left`
-      );
     } catch (error) {
       error.status = 400;
       return Promise.reject(error);
