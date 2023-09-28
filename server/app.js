@@ -26,7 +26,15 @@ app.use(express.text());
 app.use(express.static("./public"));
 app.use(logger);
 
-app.use(session({ secret: "cats", resave: false, saveUninitialized: true }));
+app.use(
+  session({
+    store: "",
+    name: "googleCookie",
+    secret: "cats",
+    resave: false,
+    saveUninitialized: true,
+  })
+);
 app.use(passport.initialize());
 app.use(passport.session());
 

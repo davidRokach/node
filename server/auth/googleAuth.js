@@ -12,7 +12,7 @@ passport.use(
       clientID: GOOGLE_CLIENT_ID,
       clientSecret: GOOGLE_CLIENT_SECRET,
       callbackURL: "http://localhost:8181/users/auth/google/callback",
-      passReqToCallback: true,
+      passReqToCallback: false,
     },
     function (request, accessToken, refreshToken, profile, done) {
       return done(null, profile);

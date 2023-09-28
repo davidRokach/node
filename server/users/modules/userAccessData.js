@@ -1,5 +1,9 @@
 const { generateAuthToken } = require("../../auth/Providers/jwt");
 const { comparePassword } = require("../helper/bcrypt");
+const {
+  changeUserPasswordError,
+  checkUserPasswordError,
+} = require("../service/passwordError");
 const UserModel = require("./mongoDB/User");
 const lodash = require("lodash");
 
@@ -11,10 +15,7 @@ const register = async (noramlizedUser) => {
       let user = await UserModel.findOne({ email: noramlizedUser.email });
       if (user) throw new Error("User already registered");
 
-      console.log(noramlizedUser);
-
       user = UserModel(noramlizedUser);
-      console.log(user);
 
       await user.save();
       user = lodash.pick(user, ["_id", "name", "email"]);
@@ -35,10 +36,7 @@ const googleRegister = async (noramlizedUser) => {
           email: noramlizedUser.email,
           password: "Def1234!",
         });
-
-      console.log(noramlizedUser);
       user = UserModel(noramlizedUser);
-      console.log(user);
       await user.save();
       const loginUser = { email: noramlizedUser.email, password: "Def1234!" };
       return await login(loginUser);
@@ -55,11 +53,17 @@ const login = async (noramlizedUser) => {
       let user = await UserModel.findOne({ email: noramlizedUser.email });
       if (!user) throw new Error("Invalid email or password");
 
+      await checkUserPasswordError(user._id, user.isPasswordErorr);
+
       const isPasswordValid = await comparePassword(
         noramlizedUser.password,
         user.password
       );
-      if (!isPasswordValid) throw new Error("Invalid email or password");
+      if (!isPasswordValid) {
+        await changeUserPasswordError(user._id, user.isPasswordErorr);
+      }
+      user.isPasswordErorr = [];
+      await user.save();
       return generateAuthToken(user);
     } catch (error) {
       error.status = 400;

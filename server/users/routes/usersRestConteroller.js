@@ -20,6 +20,7 @@ const normalizedUser = require("../helper/normalizedUser");
 const { generateUserPassword } = require("../helper/bcrypt");
 const normalizedGoogleUser = require("../helper/normalizeGoogleUser");
 const handleErrorHttp = require("../../utils/handleSendHttps");
+const { Store } = require("express-session");
 require("../../auth/googleAuth");
 
 const router = express.Router();
@@ -29,6 +30,12 @@ async function isLoggedIn(req, res, next) {
 }
 
 router.get("/auth", async (req, res) => {
+  req.session.destroy(function (err) {
+    if (err) {
+      console.log(err);
+    }
+  });
+  console.log(req.session);
   res.send('<a href="/users/auth/google">Authenticate with Google</a>');
 });
 
@@ -54,17 +61,13 @@ router.get("/auth/protected", isLoggedIn, async (req, res) => {
 });
 
 router.get("/auth/logout", async (req, res) => {
-  req.logout(function (err) {
-    if (err) {
-      return console.log();
-    }
-  });
   req.session.destroy(function (err) {
     if (err) {
       console.log(err);
     }
   });
-  res.send("Goodbye!");
+  res.end;
+  res.redirect("http://localhost:8181/users/auth/");
 });
 
 router.get("/auth/google/failure", async (req, res) => {
