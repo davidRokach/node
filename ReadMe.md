@@ -108,27 +108,28 @@ Here's a table of endpoints with their respective authorization requirements:
 
 ### Users
 
-| Action                   | Authorization Method | URL          | Authorization                |
-| ------------------------ | -------------------- | ------------ | ---------------------------- |
-| Register User            | POST                 | /users       | all                          |
-| Login                    | POST                 | /users/login | all                          |
-| Get All Users            | GET                  | /users       | admin                        |
-| Get User                 | GET                  | /users/:id   | The registered user or admin |
-| Edit User                | PUT                  | /users/:id   | The registered user          |
-| Change isBusiness Status | PATCH                | /users/:id   | The registered user          |
-| Delete User              | DELETE               | /users/:id   | The registered user or admin |
+| Action                   | Authorization Method | URL          | Authorization                | Return                           |
+| ------------------------ | -------------------- | ------------ | ---------------------------- | -------------------------------- |
+| Register User            | POST                 | /users       | all                          | {"\_id","name","email"}          |
+| Google Register          | POST                 | /google/auth | all                          | link for register and then token |
+| Login                    | POST                 | /users/login | all                          | token                            |
+| Get All Users            | GET                  | /users       | admin                        | Array of users                   |
+| Get User                 | GET                  | /users/:id   | The registered user or admin | User                             |
+| Edit User                | PUT                  | /users/:id   | The registered user          | User                             |
+| Change isBusiness Status | PATCH                | /users/:id   | The registered user          | User                             |
+| Delete User              | DELETE               | /users/:id   | The registered user or admin | Deleted user                     |
 
 ### Cards
 
-| Action          | Authorization Method | URL             | Authorization                          |
-| --------------- | -------------------- | --------------- | -------------------------------------- |
-| Get All Cards   | GET                  | /cards          | all                                    |
-| Get User Cards  | GET                  | /cards/my-cards | The registered user                    |
-| Get Card by ID  | GET                  | /cards/:id      | all                                    |
-| Create New Card | POST                 | /cards          | Business user                          |
-| Edit Card       | PUT                  | /cards/:id      | The user who created the card          |
-| Like Card       | PATCH                | /cards/:id      | A registered user                      |
-| Delete Card     | DELETE               | /cards/:id      | The user who created the card or admin |
+| Action          | Authorization Method | URL             | Authorization                          | Return         |
+| --------------- | -------------------- | --------------- | -------------------------------------- | -------------- |
+| Get All Cards   | GET                  | /cards          | all                                    | Array of cards |
+| Get User Cards  | GET                  | /cards/my-cards | The registered user                    | card           |
+| Get Card by ID  | GET                  | /cards/:id      | all                                    | card           |
+| Create New Card | POST                 | /cards          | Business user                          | card           |
+| Edit Card       | PUT                  | /cards/:id      | The user who created the card          | card           |
+| Like Card       | PATCH                | /cards/:id      | A registered user                      | card           |
+| Delete Card     | DELETE               | /cards/:id      | The user who created the card or admin | Deleted card   |
 
 ## Usage
 

@@ -30,8 +30,6 @@ async function isLoggedIn(req, res, next) {
 // regeister google user
 router.get("/auth/protected", isLoggedIn, async (req, res) => {
   const user = await normalizedGoogleUser(req.user);
-  // const generatedPassword = await generateGooglePasswords();
-  // user.password = await generateUserPassword(generatedPassword);
 
   const token = await googleRegister(user);
   res.send(`Hello ${req.user.displayName}, this your token ${token}`);
