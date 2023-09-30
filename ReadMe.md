@@ -32,35 +32,37 @@ This Node server is designed for the "Business Card App," a web application that
 
 - **Configuration Files**: Configuration files for development and production environments are stored in the "config" folder, with "development.json" and "production.json" files.
 
-## Getting Started
+## Authorization Endpoints
 
-1. Clone this repository to your local machine:
+Here's a table of endpoints with their respective authorization requirements:
 
-   ```shell
-   git clone https://github.com/davidRokach/node.git
-   ```
+### Users
 
-2. Install the required dependencies using npm:
+| Action                   | Authorization Method | URL          | Authorization                | Return                           |
+| ------------------------ | -------------------- | ------------ | ---------------------------- | -------------------------------- |
+| Register User            | POST                 | /users       | all                          | {"\_id","name","email"}          |
+| Google Register          | POST                 | /google/auth | all                          | link for register and then token |
+| Login                    | POST                 | /users/login | all                          | token                            |
+| Get All Users            | GET                  | /users       | admin                        | Array of users                   |
+| Get User                 | GET                  | /users/:id   | The registered user or admin | User                             |
+| Edit User                | PUT                  | /users/:id   | The registered user          | User                             |
+| Change isBusiness Status | PATCH                | /users/:id   | The registered user          | User                             |
+| Delete User              | DELETE               | /users/:id   | The registered user or admin | Deleted user                     |
 
-   ```shell
-   npm install
-   ```
+### Cards
 
-3. Configure your environment variables for the server based on the "config/development.json" or "config/production.json" file as needed.
+| Action          | Authorization Method | URL             | Authorization                          | Return         |
+| --------------- | -------------------- | --------------- | -------------------------------------- | -------------- |
+| Get All Cards   | GET                  | /cards          | all                                    | Array of cards |
+| Get User Cards  | GET                  | /cards/my-cards | The registered user                    | card           |
+| Get Card by ID  | GET                  | /cards/:id      | all                                    | card           |
+| Create New Card | POST                 | /cards          | Business user                          | card           |
+| Edit Card       | PUT                  | /cards/:id      | The user who created the card          | card           |
+| Like Card       | PATCH                | /cards/:id      | A registered user                      | card           |
+| Delete Card     | DELETE               | /cards/:id      | The user who created the card or admin | Deleted card   |
+| change bizNumbe | PATCH                | /:bizNumber/:id | Admin user                             | card           |
 
-4. To start the server, you have two options:
-
-   - For **development**, run the following command:
-
-     ```shell
-     npm run dev
-     ```
-
-   - For **production**, run the following command:
-
-     ```shell
-     npm start
-     ```
+You can see examples of json that the server should receive in all kinds of requests in the section [testing](#testing)
 
 ## Configuration
 
@@ -108,35 +110,122 @@ Create a folder named "config" and inside it, place the following JSON files:
 
 Make sure to provide the necessary values in these configuration files.
 
-## Authorization Endpoints
+## Getting Started
 
-Here's a table of endpoints with their respective authorization requirements:
+1. Clone this repository to your local machine:
 
-### Users
+   ```shell
+   git clone https://github.com/davidRokach/node.git
+   ```
 
-| Action                   | Authorization Method | URL          | Authorization                | Return                           |
-| ------------------------ | -------------------- | ------------ | ---------------------------- | -------------------------------- |
-| Register User            | POST                 | /users       | all                          | {"\_id","name","email"}          |
-| Google Register          | POST                 | /google/auth | all                          | link for register and then token |
-| Login                    | POST                 | /users/login | all                          | token                            |
-| Get All Users            | GET                  | /users       | admin                        | Array of users                   |
-| Get User                 | GET                  | /users/:id   | The registered user or admin | User                             |
-| Edit User                | PUT                  | /users/:id   | The registered user          | User                             |
-| Change isBusiness Status | PATCH                | /users/:id   | The registered user          | User                             |
-| Delete User              | DELETE               | /users/:id   | The registered user or admin | Deleted user                     |
+2. Install the required dependencies using npm:
 
-### Cards
+   ```shell
+   npm install
+   ```
 
-| Action          | Authorization Method | URL             | Authorization                          | Return         |
-| --------------- | -------------------- | --------------- | -------------------------------------- | -------------- |
-| Get All Cards   | GET                  | /cards          | all                                    | Array of cards |
-| Get User Cards  | GET                  | /cards/my-cards | The registered user                    | card           |
-| Get Card by ID  | GET                  | /cards/:id      | all                                    | card           |
-| Create New Card | POST                 | /cards          | Business user                          | card           |
-| Edit Card       | PUT                  | /cards/:id      | The user who created the card          | card           |
-| Like Card       | PATCH                | /cards/:id      | A registered user                      | card           |
-| Delete Card     | DELETE               | /cards/:id      | The user who created the card or admin | Deleted card   |
-| change bizNumbe | PATCH                | /:bizNumber/:id | Admin user                             | card           |
+3. Configure your environment variables for the server based on the "config/development.json" or "config/production.json" file as needed.
+
+4. To start the server, you have two options:
+
+   - For **development**, run the following command:
+
+     ```shell
+     npm run dev
+     ```
+
+   - For **production**, run the following command:
+
+     ```shell
+     npm start
+     ```
+
+## Testing
+
+<a name="testing"></a>
+
+Here are examples of json that the server should receive in all kinds of operations
+
+### Register User
+
+```json
+{
+  "NODE_ENV": "development",
+  "PORT": 8181,
+  "TOKEN_GENERATOR": "jwt",
+  "DB_USER_NAME": null,
+  "DB_PASSWORD": null,
+  "GOOGLE_CLIENT_ID": "your google client id",
+  "GOOGLE_CLIENT_SECRET": "your google client secret",
+  "LOGGER": "morgan",
+  "DB": "MONGODB",
+  "DB_HOST": "your db host",
+  "DB_NAME": "business-cards"
+}
+```
+
+### Login
+
+```json
+{
+  "NODE_ENV": "development",
+  "PORT": 8181,
+  "TOKEN_GENERATOR": "jwt",
+  "DB_USER_NAME": null,
+  "DB_PASSWORD": null,
+  "GOOGLE_CLIENT_ID": "your google client id",
+  "GOOGLE_CLIENT_SECRET": "your google client secret",
+  "LOGGER": "morgan",
+  "DB": "MONGODB",
+  "DB_HOST": "your db host",
+  "DB_NAME": "business-cards"
+}
+```
+
+### Create New Card
+
+```json
+{
+  "NODE_ENV": "development",
+  "PORT": 8181,
+  "TOKEN_GENERATOR": "jwt",
+  "DB_USER_NAME": null,
+  "DB_PASSWORD": null,
+  "GOOGLE_CLIENT_ID": "your google client id",
+  "GOOGLE_CLIENT_SECRET": "your google client secret",
+  "LOGGER": "morgan",
+  "DB": "MONGODB",
+  "DB_HOST": "your db host",
+  "DB_NAME": "business-cards"
+}
+```
+
+### Edit Card
+
+```json
+{
+  "NODE_ENV": "development",
+  "PORT": 8181,
+  "TOKEN_GENERATOR": "jwt",
+  "DB_USER_NAME": null,
+  "DB_PASSWORD": null,
+  "GOOGLE_CLIENT_ID": "your google client id",
+  "GOOGLE_CLIENT_SECRET": "your google client secret",
+  "LOGGER": "morgan",
+  "DB": "MONGODB",
+  "DB_HOST": "your db host",
+  "DB_NAME": "business-cards"
+}
+```
+
+In addition, you can simply click on the button here and see or fork the collection in your postman.
+
+The collection is already ready with all possible requests,
+Just pay attention to change the port of the environment if you need to a different environment (for production change it to 9191).
+
+and define the variables of the collection in the necessary requests (x-auth-token, user_id, card-id)
+
+[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/25953832-56a1dfb9-502b-41b1-a5b6-46ffab5d00a0?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D25953832-56a1dfb9-502b-41b1-a5b6-46ffab5d00a0%26entityType%3Dcollection%26workspaceId%3D20acfd96-0f0c-47b1-bf49-a137defb15ff)
 
 ## Usage
 
