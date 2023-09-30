@@ -11,12 +11,10 @@ const changeUserPasswordError = async (userId, isPasswordErorr) => {
         password: 0,
         __v: 0,
       });
-      console.log(isPasswordErorr);
       //There are no errors when trying to log in to the user
       if (isPasswordErorr.length === 0 || isPasswordErorr[0] < 3) {
         user.isPasswordErorr = [(isPasswordErorr[0] || 0) + 1, Date.now()];
         await user.save();
-        console.log(user.isPasswordErorr[0]);
         throw new Error(
           `Invalid email or password, ${
             4 - user.isPasswordErorr[0]
