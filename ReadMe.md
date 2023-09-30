@@ -150,17 +150,24 @@ Here are examples of json that the server should receive in all kinds of operati
 
 ```json
 {
-  "NODE_ENV": "development",
-  "PORT": 8181,
-  "TOKEN_GENERATOR": "jwt",
-  "DB_USER_NAME": null,
-  "DB_PASSWORD": null,
-  "GOOGLE_CLIENT_ID": "your google client id",
-  "GOOGLE_CLIENT_SECRET": "your google client secret",
-  "LOGGER": "morgan",
-  "DB": "MONGODB",
-  "DB_HOST": "your db host",
-  "DB_NAME": "business-cards"
+  "name": {
+    "first": "david",
+    "last": "rokach"
+  },
+  "phone": "050-0000000",
+  "email": "davidrokach111@gmail.com",
+  "password": "Dr123456!",
+  "image": {
+    "url": "https://cdn.pixabay.com/photo/2016/04/20/08/21/entrepreneur-1340649_960_720.jpg",
+    "alt": "Business Card"
+  },
+  "address": {
+    "country": "israel",
+    "city": "tel-aviv",
+    "street": "magnive",
+    "houseNumber": 5
+  },
+  "isBusiness": true
 }
 ```
 
@@ -168,55 +175,36 @@ Here are examples of json that the server should receive in all kinds of operati
 
 ```json
 {
-  "NODE_ENV": "development",
-  "PORT": 8181,
-  "TOKEN_GENERATOR": "jwt",
-  "DB_USER_NAME": null,
-  "DB_PASSWORD": null,
-  "GOOGLE_CLIENT_ID": "your google client id",
-  "GOOGLE_CLIENT_SECRET": "your google client secret",
-  "LOGGER": "morgan",
-  "DB": "MONGODB",
-  "DB_HOST": "your db host",
-  "DB_NAME": "business-cards"
+  "email": "davidrokach111@gmail.com",
+  "password": "Dr123456!"
 }
 ```
 
-### Create New Card
+### Create Card/Edit Card
 
 ```json
 {
-  "NODE_ENV": "development",
-  "PORT": 8181,
-  "TOKEN_GENERATOR": "jwt",
-  "DB_USER_NAME": null,
-  "DB_PASSWORD": null,
-  "GOOGLE_CLIENT_ID": "your google client id",
-  "GOOGLE_CLIENT_SECRET": "your google client secret",
-  "LOGGER": "morgan",
-  "DB": "MONGODB",
-  "DB_HOST": "your db host",
-  "DB_NAME": "business-cards"
+  "title": "my card",
+  "subtitle": "this is  my card",
+  "description": "this is my card in the database",
+  "phone": "050-0000000",
+  "email": "Davidrokach111@gmail.com",
+  "web": "https://www.test.co.il",
+  "address": {
+    "country": "test",
+    "city": "test",
+    "street": "test",
+    "houseNumber": 3,
+    "zip": 0
+  },
+  "image": {
+    "url": "https://cdn.pixabay.com/photo/2016/04/20/08/21/entrepreneur-1340649_960_720.jpg",
+    "alt": "Business Card"
+  }
 }
 ```
 
-### Edit Card
-
-```json
-{
-  "NODE_ENV": "development",
-  "PORT": 8181,
-  "TOKEN_GENERATOR": "jwt",
-  "DB_USER_NAME": null,
-  "DB_PASSWORD": null,
-  "GOOGLE_CLIENT_ID": "your google client id",
-  "GOOGLE_CLIENT_SECRET": "your google client secret",
-  "LOGGER": "morgan",
-  "DB": "MONGODB",
-  "DB_HOST": "your db host",
-  "DB_NAME": "business-cards"
-}
-```
+### postman
 
 In addition, you can simply click on the button here and see or fork the collection in your postman.
 

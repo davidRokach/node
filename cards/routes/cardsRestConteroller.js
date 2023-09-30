@@ -140,7 +140,6 @@ router.patch("/:bizNumber/:id", auth, async (req, res) => {
   try {
     const { id, bizNumber } = req.params;
     const { isAdmin } = req.user;
-    console.log(isAdmin);
     if (!isAdmin)
       return handleError(
         res,
