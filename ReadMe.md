@@ -17,6 +17,9 @@ This Node server is designed for the "Business Card App," a web application that
 - **Blocking users**:
   In case of wrong login attempt more than 3 times, the user will be blocked for 24 hours.
 
+- **Blocking users**:
+  In case of wrong login attempt more than 3 times, the user will be blocked for 24 hours.
+
 - **Json Web Token (JWT)**: JWT is employed to create encrypted tokens for user authentication. The payload object contains the following keys: `_id` (user ID), `isBusiness` (flag indicating if the user is a business user), and `isAdmin` (flag indicating if the user has administrative privileges).
 
 - **Passport**: Passport is integrated to verify users connecting through Google. It provides a secure and convenient way for users to authenticate using their Google accounts.
