@@ -3,7 +3,7 @@ const passport = require("passport");
 const GoogleStrategy = require("passport-google-oauth2").Strategy;
 
 const GOOGLE_CLIENT_ID = config.get("GOOGLE_CLIENT_ID");
-
+const PORT = config.get("PORT");
 const GOOGLE_CLIENT_SECRET = config.get("GOOGLE_CLIENT_SECRET");
 
 passport.use(
@@ -11,7 +11,7 @@ passport.use(
     {
       clientID: GOOGLE_CLIENT_ID,
       clientSecret: GOOGLE_CLIENT_SECRET,
-      callbackURL: "http://localhost:8181/google/auth/callback",
+      callbackURL: `http://localhost:${PORT}/google/auth/callback`,
       passReqToCallback: false,
     },
     function (request, accessToken, refreshToken, profile, done) {

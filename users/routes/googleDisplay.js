@@ -1,6 +1,9 @@
 const express = require("express");
 const passport = require("passport");
 require("../../auth/googleAuth");
+const config = require("config");
+
+const PORT = config.get("PORT");
 
 const router = express.Router();
 
@@ -15,7 +18,9 @@ router.get("/auth", async (req, res) => {
       console.log(err);
     }
   });
-  res.send('<a href="/google/auth/google">Authenticate with Google</a>');
+  res.send(
+    `<a href="http://localhost:${PORT}/google/auth/google">Authenticate with Google</a>`
+  );
 });
 
 router.get(
@@ -38,7 +43,7 @@ router.get("/auth/logout", async (req, res) => {
     }
   });
   res.end;
-  res.redirect("http://localhost:8181/users/auth/");
+  res.redirect(`http://localhost:${PORT}/users/auth/`);
 });
 
 router.get("/auth/failure", async (req, res) => {

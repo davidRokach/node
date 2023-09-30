@@ -81,7 +81,7 @@ Create a folder named "config" and inside it, place the following JSON files:
   "LOGGER": "morgan",
   "DB": "MONGODB",
   "DB_HOST": "your db host",
-  "DB_NAME": "business-cards"
+  "DB_NAME": "business-cards-app"
 }
 ```
 
