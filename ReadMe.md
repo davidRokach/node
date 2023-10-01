@@ -61,6 +61,72 @@ Here's a table of endpoints with their respective authorization requirements:
 
 You can see examples of json that the server should receive in all kinds of requests in the section [testing](#testing)
 
+Certainly, here's a section of property definitions for the objects that the server receives in various requests:
+
+## Request Object Property Definitions
+
+### Create/update Card
+
+- **title**: A string with a minimum length of 2 and a maximum length of 256. (Required)
+- **subtitle**: A string with a minimum length of 2 and a maximum length of 256. (Required)
+- **description**: A string with a minimum length of 2 and a maximum length of 1024. (Required)
+- **phone**: A string representing a valid israeli phone number. The phone number must match the pattern: `+?(972|0)(-)?(\d{2}(-)?\d{7}|\d{2}(-)?\d{3}(-)?\d{4})`. (Required)
+- **web**: A string representing a valid URL. (Optional)
+- **email**: A string representing a valid email address. (Required)
+- **image**:
+  - **url**: A string representing a valid URL for the card's image. (Optional)
+  - **alt**: A string with a minimum length of 2 and a maximum length of 256, allowing an empty string. (Optional)
+- **address**:
+  - **state**: A string with a minimum length of 2 and a maximum length of 256, allowing an empty string. (Optional)
+  - **country**: A string with a minimum length of 2 and a maximum length of 256. (Required)
+  - **city**: A string with a minimum length of 2 and a maximum length of 256. (Required)
+  - **street**: A string with a minimum length of 2 and a maximum length of 256. (Required)
+  - **houseNumber**: A number. (Optional)
+  - **zip**: A number. (Optional)
+- **bizNumber**: A number, allowing an empty string. (Optional)
+- **user_id**: A string, allowing an empty string. (Optional)
+
+### Login
+
+- **email**: A string representing a valid email address. (Required)
+- **password**: A string representing a password that must meet the criteria: at least seven characters, including an uppercase letter, a lowercase letter, a number, and one of the following symbols: !@#$%^&\*- (Required)
+
+### Register
+
+- **name**:
+  - **first**: A string with a minimum length of 2 and a maximum length of 256. (Required)
+  - **middle**: A string with a minimum length of 2 and a maximum length of 256, allowing an empty string. (Optional)
+  - **last**: A string with a minimum length of 2 and a maximum length of 256. (Required)
+- **isBusiness**: A boolean. (Required)
+- **phone**: A string representing a valid israeli phone number. The phone number must match the pattern: `+?(972|0)(-)?(\d{2}(-)?\d{7}|\d{2}(-)?\d{3}(-)?\d{4})`. (Required)
+- **email**: A string representing a valid email address. (Required)
+- **password**: A string representing a password that must meet the criteria: at least nine characters, including an uppercase letter, a lowercase letter, a number, and one of the following symbols: !@#$%^&\*- (Required)
+- **image**:
+  - **url**: A string representing a valid URL for the user's image. (Optional)
+  - **alt**: A string with a minimum length of 2 and a maximum length of 256, allowing an empty string. (Optional)
+- **address**:
+  - **state**: A string with a minimum length of 2 and a maximum length of 256, allowing an empty string. (Optional)
+  - **country**: A string with a minimum length of 2 and a maximum length of 256. (Required)
+  - **city**: A string with a minimum length of 2 and a maximum length of 256. (Required)
+  - **street**: A string with a minimum length of 2 and a maximum length of 256. (Required)
+  - **houseNumber**: A number. (Optional)
+  - **zip**: A number. (Optional)
+
+### Update User
+
+- **name**:
+  - **first**: A string with a minimum length of 2 and a maximum length of 256. (Required)
+  - **middle**: A string with a minimum length of 2 and a maximum length of 256, allowing an empty string. (Optional)
+  - **last**: A string with a minimum length of 2 and a maximum length of 256. (Required)
+- **isBusiness**: A boolean. (Required)
+- **phone**: A string representing a valid israeli phone number. The phone number must match the pattern: `+?(972|0)(-)?(\d{2}(-)?\d{7}|\d{2}(-)?\d{3}(-)?\d{4})`. (Required)
+- **email**: A string representing a valid email address. (Required)
+- **image**:
+  - **url**: A string representing a valid URL for the user's image. (Optional)
+  - **alt**: A string with a minimum length of 2 and a maximum length of 256, allowing an empty string. (Optional)
+- **address**:
+  - **state**: A string with a minimum length of 2 and a maximum length of 256
+
 ## Configuration
 
 The server's configuration is managed through environment variables, which can be set using the appropriate JSON configuration file.

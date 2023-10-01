@@ -1,20 +1,20 @@
 const Joi = require("joi");
 
-const validateCardWithJoi = (card) => {
+const updateUserValidation = (user) => {
   const urlRegex =
     /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/;
 
   const schema = Joi.object({
-    title: Joi.string().min(2).max(256).required(),
-    subtitle: Joi.string().min(2).max(256).required(),
-    description: Joi.string().min(2).max(1024).required(),
+    name: Joi.object().keys({
+      first: Joi.string().min(2).max(256).required(),
+      middle: Joi.string().min(2).max(256).allow("").optional(),
+      last: Joi.string().min(2).max(256).required(),
+    }),
+    isBusiness: Joi.boolean().required(),
     phone: Joi.string()
       .ruleset.regex(/\+?(972|0)(-)?(\d{2}(-)?\d{7}|\d{2}(-)?\d{3}(-)?\d{4})/)
       .rule({ message: "phone mast be a valid phone" })
       .required(),
-    web: Joi.string()
-      .ruleset.regex(urlRegex)
-      .rule({ message: 'web.url "url" mast be a valid url' }),
     email: Joi.string()
       .ruleset.regex(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/)
       .rule({ message: "email mast be a valid email" })
@@ -34,11 +34,9 @@ const validateCardWithJoi = (card) => {
       houseNumber: Joi.number(),
       zip: Joi.number(),
     }),
-    bizNumber: Joi.number().allow("").optional(),
-    user_id: Joi.string().allow("").optional(),
   });
 
-  return schema.validate(card);
+  return schema.validate(user);
 };
 
-exports.validateCardWithJoi = validateCardWithJoi;
+exports.updateUserValidation = updateUserValidation;

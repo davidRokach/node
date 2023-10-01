@@ -1,0 +1,4 @@
+
+  Sun Oct 01 2023, status - 500, error message - Illegal arguments: undefined, string
+  Sun Oct 01 2023, status - 400, error message - "password" is required
+  Sun Oct 01 2023, status - 403, error message - Authorization Error: You must be the registered user to update its details

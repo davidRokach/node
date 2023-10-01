@@ -19,6 +19,9 @@ const normalizedUser = require("../helper/normalizedUser");
 const { generateUserPassword } = require("../helper/bcrypt");
 const normalizedGoogleUser = require("../helper/normalizeGoogleUser");
 const handleErrorHttp = require("../../utils/handleSendHttps");
+const {
+  updateUserValidation,
+} = require("../validations/Joi/updateUserValidation");
 require("../../auth/googleAuth");
 
 const router = express.Router();
@@ -111,7 +114,7 @@ router.put("/:id", auth, async (req, res) => {
         "Authorization Error: You must be the registered user to update its details"
       );
 
-    const { error } = validateRegistration(req.body);
+    const { error } = updateUserValidation(req.body);
     if (error)
       return handleError(res, 400, `Joi Error: ${error.details[0].message}`);
 
