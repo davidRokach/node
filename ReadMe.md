@@ -61,8 +61,6 @@ Here's a table of endpoints with their respective authorization requirements:
 
 You can see examples of json that the server should receive in all kinds of requests in the section [testing](#testing)
 
-Certainly, here's a section of property definitions for the objects that the server receives in various requests:
-
 ## Request Object Property Definitions
 
 ### Create/update Card
