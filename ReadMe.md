@@ -212,7 +212,7 @@ Just pay attention to change the port of the environment if you need to a differ
 
 and define the variables of the collection in the necessary requests (x-auth-token, user_id, card-id)
 
-[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/25953832-56a1dfb9-502b-41b1-a5b6-46ffab5d00a0?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D25953832-56a1dfb9-502b-41b1-a5b6-46ffab5d00a0%26entityType%3Dcollection%26workspaceId%3D20acfd96-0f0c-47b1-bf49-a137defb15ff)
+[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/25953832-56a1dfb9-502b-41b1-a5b6-46ffab5d00a0?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D25953832-56a1dfb9-502b-41b1-a5b6-46ffab5d00a0%26entityType%3Dcollection%26workspaceId%3D9a4b0f24-2bdd-4a3f-8821-7a5412892097#?env%5Bdev%5D=W3sia2V5IjoicG9ydCIsInZhbHVlIjoiODE4MSIsImVuYWJsZWQiOnRydWUsInR5cGUiOiJkZWZhdWx0In1d)
 
 ## Usage
 
